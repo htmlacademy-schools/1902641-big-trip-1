@@ -316,7 +316,7 @@ const createAddEventItemTemplate = tripEvent => {
     return types.map(createType).join('');
   };
 
-  const addableOffersMarkup = createOfferListMarkup(offers);
+  const addableOffersMarkup = createOffersListMarkup(offers);
   const photosList = photos.map(createPhotoMarkup).join('');
   const locationOptions = (0,_mock_locations__WEBPACK_IMPORTED_MODULE_1__.locations)().map(createLocationOption).join('');
   const eventTypesMarkup = createEventTypesMarkup((0,_mock_event_types__WEBPACK_IMPORTED_MODULE_2__.eventTypes)(), eventType);
@@ -507,7 +507,7 @@ const createEventItemEditTemplate = tripEvent => {
     return types.map(createType).join('');
   };
 
-  const editedOffersmarkup = offers.map(createOfferMarkup).join('');
+  const editedOffersMarkup = offers.map(createOfferMarkup).join('');
   const offersListMarkup = createOffersListMarkup(editedOffersMarkup);
   const locationOptions = (0,_mock_locations__WEBPACK_IMPORTED_MODULE_1__.locations)().map(createLocationOption).join('');
   const eventTypesMarkup = createEventTypesMarkup((0,_mock_event_types__WEBPACK_IMPORTED_MODULE_2__.eventTypes)(), eventType);
@@ -746,7 +746,7 @@ const createTripEventsItemTemplate = tripEvent => {
   };
 
   const durationText = getDuration(duration);
-  const OffersMarkup = offers.map(createOfferMarkup).join('');
+  const offersMarkup = offers.map(createOfferMarkup).join('');
   return `<li class="trip-events__item">
               <li class="trip-events__item">
               <div class="event">
@@ -1192,8 +1192,6 @@ const renderEvent = (eventListElement, event) => {
 for (let i = 1; i < TRIP_EVENTS_COUNT; i++) {
   renderEvent(tripEventsListElement.element, tripEvents[i]);
 }
-
-;
 })();
 
 /******/ })()
