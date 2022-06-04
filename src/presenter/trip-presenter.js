@@ -8,12 +8,15 @@ import {sortTaskByDay, sortTaskByDuration, sortTaskByPrice} from '../utils/point
 import {filter} from '../utils/filter';
 import {SortType, UpdateType, UserAction, FilterType} from '../utils/const';
 import LoadingView from '../view/loading-view';
-
+import createHeaderView from '../view/header-view';
+// import HeaderNavigation from '../view/header-navigation';
+const tripMainContainer = document.querySelector('.trip-main');
 
 export default class TripPresenter {
   #mainContainer = null;
   #tableContainer = null;
-
+  #headerView = new createHeaderView();
+  // #headNavigation = new HeaderNavigation();
   #pointsModel = null;
   #filterModel = null;
 
@@ -157,6 +160,18 @@ export default class TripPresenter {
     this.#renderTable();
   }
 
+  // #renderHeadView = () => {
+  //   render(this.#tableContainer, this.#headerView, RenderPosition.AFTERBEGIN);
+  //   render(this.#tableContainer, this.#headNavigation, RenderPosition.AFTERBEGIN);
+  // };
+
+  renderHeadView = () => {
+    if(this.points.length > 0 ) {
+      this.#headerView = new createHeaderView(this.points);
+      render(tripMainContainer,this.#headerView , RenderPosition.AFTERBEGIN);
+    }
+  }
+
   #renderSort = () => {
     this.#sortComponent = new TripSortView(this.#currentSortType);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
@@ -213,7 +228,7 @@ export default class TripPresenter {
       this.#renderNoPoints();
       return;
     }
-
+    this.renderHeadView();
     this.#renderSort();
     this.#renderPoints(points);
   }
