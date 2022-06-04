@@ -2,13 +2,13 @@ import AbstractView from './abstract-view';
 import dayjs from 'dayjs';
 import { sortTaskByDay } from '../utils/point';
 
-const createHeaderView = (events) => {
-  events.sort(sortTaskByDay);
-  const arrayNameCities = events.map((event)=> event.city.currentCity.name);
+const createHeaderView = (points) => {
+  points.sort(sortTaskByDay);
+  const arrayNameCities = points.map((event)=> event.city.currentCity.name);
   let totalBasePrice = null;
-  events.forEach((event)=> {totalBasePrice += Number(event.basePrice);});
-  const dateBegin = dayjs(events[0].date.dataBeginEvent).format('D MMM');
-  const dateEnd = dayjs(events[events.length-1].date.dataEndEvent).format('DD MMM');
+  points.forEach((point)=> {totalBasePrice += Number(point.basePrice);});
+  const dateBegin = dayjs(points[0].date.dataBeginEvent).format('D MMM');
+  const dateEnd = dayjs(points[points.length-1].date.dataEndEvent).format('DD MMM');
 
   let tripTitles = '';
 
@@ -37,14 +37,14 @@ const createHeaderView = (events) => {
           </section>`;
 };
 export default class HeaderView extends AbstractView{
-  #events = null;
+  #points = null;
 
-  constructor(events){
+  constructor(points){
     super();
-    this.#events = events;
+    this.#points = points;
   }
 
   get template() {
-    return createHeaderView(this.#events);
+    return createHeaderView(this.#points);
   }
 }
