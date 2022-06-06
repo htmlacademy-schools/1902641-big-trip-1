@@ -455,7 +455,7 @@ class PointNewPresenter {
 
       _classPrivateFieldSet(this, _destinations, destinations);
 
-      _classPrivateFieldSet(this, _pointAddComponent, new _view_event_add_view__WEBPACK_IMPORTED_MODULE_0__["default"](_classPrivateFieldGet(this, _destinations), _classPrivateFieldGet(this, _ofOffers)));
+      _classPrivateFieldSet(this, _pointAddComponent, new _view_event_add_view__WEBPACK_IMPORTED_MODULE_0__["default"](_classPrivateFieldGet(this, _ofOffers), _classPrivateFieldGet(this, _destinations)));
 
       _classPrivateFieldGet(this, _pointAddComponent).setFormSubmitHandler(_classPrivateFieldGet(this, _handleFormSubmit));
 
@@ -618,7 +618,7 @@ var _handleFormSubmit = /*#__PURE__*/new WeakMap();
 var _handleDeleteClick = /*#__PURE__*/new WeakMap();
 
 class PointPresenter {
-  constructor(pointListContainer, changeData, changeMode, destinations, ofOffers) {
+  constructor(pointListContainer, changeData, changeMode, ofOffers, destinations) {
     _classPrivateFieldInitSpec(this, _pointListContainer, {
       writable: true,
       value: null
@@ -673,7 +673,7 @@ class PointPresenter {
 
       _classPrivateFieldSet(this, _pointComponent, new _view_point_item_view__WEBPACK_IMPORTED_MODULE_0__["default"](point));
 
-      _classPrivateFieldSet(this, _pointEditComponent, new _view_point_edit_view__WEBPACK_IMPORTED_MODULE_1__["default"](point, _classPrivateFieldGet(this, _destinations), _classPrivateFieldGet(this, _ofOffers)));
+      _classPrivateFieldSet(this, _pointEditComponent, new _view_point_edit_view__WEBPACK_IMPORTED_MODULE_1__["default"](point, _classPrivateFieldGet(this, _ofOffers), _classPrivateFieldGet(this, _destinations)));
 
       _classPrivateFieldGet(this, _pointComponent).setEditClickHandler(_classPrivateFieldGet(this, _handleEditClick));
 
@@ -1198,7 +1198,7 @@ class TripPresenter {
     _classPrivateFieldInitSpec(this, _renderPoint, {
       writable: true,
       value: point => {
-        const pointPresenter = new _point_presenter__WEBPACK_IMPORTED_MODULE_3__["default"](_classPrivateFieldGet(this, _pointListComponent), _classPrivateFieldGet(this, _handleViewAction), _classPrivateFieldGet(this, _handleModeChange), _classPrivateFieldGet(this, _destinations), _classPrivateFieldGet(this, _offers));
+        const pointPresenter = new _point_presenter__WEBPACK_IMPORTED_MODULE_3__["default"](_classPrivateFieldGet(this, _pointListComponent), _classPrivateFieldGet(this, _handleViewAction), _classPrivateFieldGet(this, _handleModeChange), _classPrivateFieldGet(this, _offers), _classPrivateFieldGet(this, _destinations));
         pointPresenter.init(point);
 
         _classPrivateFieldGet(this, _pointPresenter).set(point.id, pointPresenter);
@@ -2056,7 +2056,7 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 
 
-const createPointAddTemplate = (point, destinations, ofOffers) => {
+const createPointAddTemplate = (point, ofOffers, destinations) => {
   const {
     basePrice: price,
     destination,
@@ -2166,7 +2166,7 @@ var _formDeleteClickHandler = /*#__PURE__*/new WeakMap();
 var _getChangedDestination = /*#__PURE__*/new WeakMap();
 
 class PointAddView extends _smart_view__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(destinations, _offers) {
+  constructor(_offers, destinations) {
     super();
 
     _classPrivateFieldInitSpec(this, _datepickerFrom, {
@@ -2370,7 +2370,7 @@ class PointAddView extends _smart_view__WEBPACK_IMPORTED_MODULE_0__["default"] {
   }
 
   get template() {
-    return createPointAddTemplate(this._data, _classPrivateFieldGet(this, _destinations), _classPrivateFieldGet(this, _ofOffers));
+    return createPointAddTemplate(this._data, _classPrivateFieldGet(this, _ofOffers), _classPrivateFieldGet(this, _destinations));
   }
 
 }
@@ -2623,7 +2623,7 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 
 
-const createPointEditTemplate = (point, destinations, ofOffers) => {
+const createPointEditTemplate = (point, ofOffers, destinations) => {
   const {
     basePrice: price,
     destination,
@@ -2742,7 +2742,7 @@ var _formDeleteClickHandler = /*#__PURE__*/new WeakMap();
 var _getChangedDestination = /*#__PURE__*/new WeakMap();
 
 class PointEditView extends _smart_view__WEBPACK_IMPORTED_MODULE_0__["default"] {
-  constructor(_point, _destinations2, ofOffers) {
+  constructor(_point, ofOffers, _destinations2) {
     super();
 
     _classPrivateFieldInitSpec(this, _datepickerFrom, {
