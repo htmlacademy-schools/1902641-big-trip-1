@@ -5,13 +5,12 @@ import flatpickr from 'flatpickr';
 import he from 'he';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
-const createPointEditTemplate = (point, destinations, ofOffers) => {
-
+const createPointEditTemplate = (point, destinations, allOffers) => {
   const {basePrice: price, destination, type, offers, isDisabled, isSaving, isDeleting} = point;
 
   const pointTypeLabel = type.charAt(0).toUpperCase() + type.slice(1);
 
-  const pointTypesMarkup = createPointTypesMarkup(ofOffers, type);
+  const pointTypesMarkup = createPointTypesMarkup(allOffers, type);
   const destinationOptions = destinations.map((x) => (`<option value="${x.name}"></option>`)).join('');
 
   const photosMarkup = destination.pictures.map((x) => (`<img class="event__photo" src="${x.src}" alt="${x.description}">`)).join('');
@@ -92,20 +91,23 @@ const createPointEditTemplate = (point, destinations, ofOffers) => {
 export default class PointEditView extends SmartView {
   #datepickerFrom = null;
   #datepickerTo = null;
-  #ofOffers = null;
-  #destinations = null;
 
-  constructor(point, destinations, ofOffers) {
+  #destinations = null;
+  #allOffers = null;
+
+  constructor(point, destinations, allOffers) {
     super();
     this._data = PointEditView.parsePointToData(point);
-    this.#ofOffers = ofOffers;
+
     this.#destinations = destinations;
+    this.#allOffers = allOffers;
+
     this.#setInnerHandlers();
     this.#setDatepicker();
   }
 
   get template() {
-    return createPointEditTemplate(this._data, this.#ofOffers, this.#destinations);
+    return createPointEditTemplate(this._data, this.#destinations, this.#allOffers);
   }
 
   removeElement = () => {
@@ -156,7 +158,7 @@ export default class PointEditView extends SmartView {
       this.element.querySelector('.event__input-start-time'),
       {
         enableTime: true,
-        dateFormat: 'd/m/y H:i',
+        dateFormat: 'd/m/y H:i' ,
         defaultDate: this._data.dateFrom,
         onChange: this.#dateFromChangeHandler
       },
@@ -173,12 +175,6 @@ export default class PointEditView extends SmartView {
     );
   }
 
-  #dateFromChangeHandler = ([userDate]) => {
-    this.updateData({
-      dateFrom: userDate.toISOString(),
-    });
-  }
-
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-group')
       .addEventListener('change', this.#typeGroupClickHandler);
@@ -193,19 +189,10 @@ export default class PointEditView extends SmartView {
     }
   }
 
-  #offerClickHandler = (evt) => {
-    evt.preventDefault();
-    const offers = this._data.offers;
+  #dateFromChangeHandler = ([userDate]) => {
     this.updateData({
-      offers: changeCheckedOffers(offers, evt.target.getAttribute('data-title'))
-    }, false);
-  }
-
-  #basePriceChangeHandler = (evt) => {
-    evt.preventDefault();
-    this.updateData({
-      basePrice: parseInt(evt.target.value, 10)
-    }, true);
+      dateFrom: userDate.toISOString(),
+    });
   }
 
   #dateToChangeHandler = ([userDate]) => {
@@ -218,7 +205,15 @@ export default class PointEditView extends SmartView {
     evt.preventDefault();
     this.updateData({
       type: evt.target.value,
-      offers: getChangedByTypeOffers(this.#ofOffers, evt.target.value)
+      offers: getChangedByTypeOffers(this.#allOffers, evt.target.value)
+    }, false);
+  }
+
+  #offerClickHandler = (evt) => {
+    evt.preventDefault();
+    const offers = this._data.offers;
+    this.updateData({
+      offers: changeCheckedOffers(offers, evt.target.getAttribute('data-title'))
     }, false);
   }
 
@@ -227,6 +222,13 @@ export default class PointEditView extends SmartView {
     this.updateData({
       destination: this.#getChangedDestination(evt.target.value, this.#destinations)
     }, false);
+  }
+
+  #basePriceChangeHandler = (evt) => {
+    evt.preventDefault();
+    this.updateData({
+      basePrice: parseInt(evt.target.value, 10)
+    }, true);
   }
 
   #rollupClickHandler = (evt) => {
@@ -246,16 +248,16 @@ export default class PointEditView extends SmartView {
 
 
   static parsePointToData = (point) => ({...point,
-    isDisabled: false,
     isSaving: false,
     isDeleting: false
   });
 
   static parseDataToPoint = (data) => {
     const point = {...data};
-    delete point.isDeleting;
-    delete point.isSaving;
     delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
     return point;
   }
 
