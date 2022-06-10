@@ -5,7 +5,7 @@ import flatpickr from 'flatpickr';
 import he from 'he';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
-const createPointAddTemplate = (point, destinations, ofOffers) => {
+const createPointAddTemplate = (point, ofOffers, destinations) => {
   const { basePrice: price, destination, type, offers, isDisabled, isSaving } = point;
   const pointTypeLabel = type ? type.charAt(0).toUpperCase() + type.slice(1) : '';
 
@@ -87,7 +87,7 @@ export default class PointAddView extends SmartView {
   #ofOffers = null;
   #destinations = null;
 
-  constructor(destinations, offers) {
+  constructor(offers, destinations) {
     super();
     this._data = PointAddView.createEmptyPoint(offers);
     this.#ofOffers = offers;
@@ -97,7 +97,7 @@ export default class PointAddView extends SmartView {
   }
 
   get template() {
-    return createPointAddTemplate(this._data, this.#destinations, this.#ofOffers);
+    return createPointAddTemplate(this._data, this.#ofOffers,  this.#destinations);
   }
 
   removeElement = () => {

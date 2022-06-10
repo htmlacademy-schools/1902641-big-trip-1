@@ -5,7 +5,7 @@ import flatpickr from 'flatpickr';
 import he from 'he';
 import '../../node_modules/flatpickr/dist/flatpickr.min.css';
 
-const createPointEditTemplate = (point, destinations, ofOffers) => {
+const createPointEditTemplate = (point, ofOffers, destinations) => {
 
   const {basePrice: price, destination, type, offers, isDisabled, isSaving, isDeleting} = point;
 
@@ -95,7 +95,7 @@ export default class PointEditView extends SmartView {
   #ofOffers = null;
   #destinations = null;
 
-  constructor(point, destinations, ofOffers) {
+  constructor(point, ofOffers, destinations) {
     super();
     this._data = PointEditView.parsePointToData(point);
     this.#ofOffers = ofOffers;

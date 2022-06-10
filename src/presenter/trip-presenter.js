@@ -8,11 +8,14 @@ import {sortTaskByDay, sortTaskByDuration, sortTaskByPrice} from '../utils/point
 import {filter} from '../utils/filter';
 import {SortType, UpdateType, UserAction, FilterType} from '../utils/const';
 import LoadingView from '../view/loading-view';
+import createHeaderView from '../view/header-view';
 
+const tripMainContainer = document.querySelector('.trip-main');
 
 export default class TripPresenter {
   #mainContainer = null;
   #tableContainer = null;
+  #headerView = new createHeaderView();
 
   #pointsModel = null;
   #filterModel = null;
@@ -89,7 +92,7 @@ export default class TripPresenter {
   createPoint = (callback) => {
     this.#clearTable();
     this.#renderTable();
-    this.#pointNewPresenter.init(callback, this.#destinations, this.#offers);
+    this.#pointNewPresenter.init(callback, this.#offers, this.#destinations);
   }
 
   #handleModeChange = () => {
@@ -157,6 +160,13 @@ export default class TripPresenter {
     this.#renderTable();
   }
 
+  renderHeadView = () => {
+    if(this.points.length > 0 ) {
+      this.#headerView = new createHeaderView(this.points);
+      render(tripMainContainer,this.#headerView , RenderPosition.AFTERBEGIN);
+    }
+  }
+
   #renderSort = () => {
     this.#sortComponent = new TripSortView(this.#currentSortType);
     this.#sortComponent.setSortTypeChangeHandler(this.#handleSortTypeChange);
@@ -165,7 +175,7 @@ export default class TripPresenter {
   }
 
   #renderPoint = (point) => {
-    const pointPresenter = new PointPresenter(this.#pointListComponent, this.#handleViewAction, this.#handleModeChange, this.#destinations, this.#offers);
+    const pointPresenter = new PointPresenter(this.#pointListComponent, this.#handleViewAction, this.#handleModeChange, this.#offers, this.#destinations);
     pointPresenter.init(point);
     this.#pointPresenter.set(point.id, pointPresenter);
   };
@@ -213,7 +223,6 @@ export default class TripPresenter {
       this.#renderNoPoints();
       return;
     }
-
     this.#renderSort();
     this.#renderPoints(points);
   }
