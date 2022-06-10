@@ -8,6 +8,7 @@ const Mode = {
   DEFAULT: 'DEFAULT',
   EDITING: 'EDITING',
 };
+
 export const State = {
   SAVING: 'SAVING',
   DELETING: 'DELETING',
@@ -24,15 +25,16 @@ export default class PointPresenter {
 
   #point = null;
   #mode = Mode.DEFAULT;
-  #ofOffers = null;
-  #destinations = null;
 
-  constructor(pointListContainer, changeData, changeMode, destinations, ofOffers) {
+  #destinations = null;
+  #allOffers = null;
+
+  constructor(pointListContainer, changeData, changeMode, destinations, allOffers) {
     this.#pointListContainer = pointListContainer;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
-    this.#ofOffers = ofOffers;
     this.#destinations = destinations;
+    this.#allOffers = allOffers;
   }
 
   init = (point) => {
@@ -42,7 +44,7 @@ export default class PointPresenter {
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent =  new PointItemView(point);
-    this.#pointEditComponent = new PointEditView(point, this.#destinations, this.#ofOffers);
+    this.#pointEditComponent = new PointEditView(point, this.#destinations, this.#allOffers);
 
     this.#pointComponent.setEditClickHandler(this.#handleEditClick);
     this.#pointComponent.setFavoriteClickHandler(this.#handleFavoriteClick);
@@ -60,7 +62,7 @@ export default class PointPresenter {
     }
 
     if (this.#mode === Mode.EDITING) {
-      replace(this.#pointEditComponent, prevPointEditComponent);
+      replace(this.#pointComponent, prevPointEditComponent);
       this.#mode = Mode.DEFAULT;
     }
 

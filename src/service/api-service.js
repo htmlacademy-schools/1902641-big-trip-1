@@ -1,9 +1,10 @@
 const Method = {
-  PUT: 'PUT',
   GET: 'GET',
+  PUT: 'PUT',
   POST: 'POST',
-  DELETE: 'DELETE',
+  DELETE: 'DELETE'
 };
+
 export default class ApiService {
   #endPoint = null;
   #authorization = null;

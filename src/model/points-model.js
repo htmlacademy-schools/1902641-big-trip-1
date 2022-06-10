@@ -1,5 +1,5 @@
 import AbstractObservable from '../utils/abstract-observable.js';
-import { UpdateType } from '../utils/const.js';
+import {UpdateType} from '../utils/const.js';
 
 export default class PointsModel extends AbstractObservable {
   #apiService = null;
@@ -30,7 +30,6 @@ export default class PointsModel extends AbstractObservable {
   }
 
   updatePoint = async (updateType, update) => {
-
     const index = this.#points.findIndex((point) => point.id === update.id);
 
     if (index === -1) {
@@ -68,6 +67,7 @@ export default class PointsModel extends AbstractObservable {
     if (index === -1) {
       throw new Error('Can\'t delete unexisting point');
     }
+
     try {
       await this.#apiService.deletePoint(update);
       this.#points = [
@@ -94,17 +94,17 @@ export default class PointsModel extends AbstractObservable {
   #adaptToClient = (point) => {
     const adaptedPoint = {...point,
       basePrice: point['base_price'],
-      isfavorite: point['is_favorite'],
-      dateTo: point['date_to'],
       dateFrom: point['date_from'],
+      dateTo: point['date_to'],
+      isFavorite: point['is_favorite'],
       offers: this.#getCompletedOffers(point['offers'])
     };
 
     delete adaptedPoint['base_price'];
-    delete adaptedPoint['is_favorite'];
-    delete adaptedPoint['date_to'];
     delete adaptedPoint['date_from'];
+    delete adaptedPoint['date_to'];
+    delete adaptedPoint['is_favorite'];
 
     return adaptedPoint;
-  }
+  };
 }

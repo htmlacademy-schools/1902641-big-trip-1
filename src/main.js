@@ -11,27 +11,28 @@ import ApiService from './service/api-service.js';
 const AUTORIZATION = 'Basic u4mtv8m3498tmiemmbe89';
 const END_POINT = 'https://16.ecmascript.pages.academy/big-trip';
 
-const pointsModel = new PointsModel(new ApiService(END_POINT, AUTORIZATION));
-const filterModel = new FilterModel();
-
 const pageMainElement = document.querySelector('.page-body');
 const tripControlsNavigationElement = document.querySelector('.trip-controls__navigation');
 const tripControlsFiltersElement = document.querySelector('.trip-controls__filters');
 tripControlsFiltersElement.classList.add('visually-hidden');
 
+const apiService = new ApiService(END_POINT, AUTORIZATION);
+
+const pointsModel = new PointsModel(apiService);
+const filterModel = new FilterModel();
+
 const siteMenuComponent = new TripTabsView();
 
-const tripPresenter = new TripPresenter(pageMainElement, pointsModel, filterModel, new ApiService(END_POINT, AUTORIZATION));
+const tripPresenter = new TripPresenter(pageMainElement, pointsModel, filterModel, apiService);
 const filterPresenter = new FilterPresenter(tripControlsFiltersElement, filterModel, pointsModel);
 
 let mode = 'TABLE';
+let statisticsComponent = null;
 
 const handlePointNewFormClose = () => {
   siteMenuComponent.element.querySelector(`[data-menu-item=${MenuItem.TABLE}]`).classList.remove('visually-hidden');
   siteMenuComponent.element.querySelector(`[data-menu-item=${MenuItem.STATS}]`).classList.remove('visually-hidden');
 };
-
-let statisticsComponent = null;
 
 const handleSiteMenuClick = (menuItem) => {
   switch (menuItem) {
@@ -61,7 +62,7 @@ filterPresenter.init();
 tripPresenter.init().finally(() => {
   pointsModel.init().finally(() => {
     siteMenuComponent.setMenuClickHandler(handleSiteMenuClick);
-    render(tripControlsNavigationElement, siteMenuComponent, RenderPosition.BEFOREBEGIN);
+    render(tripControlsNavigationElement, siteMenuComponent, RenderPosition.BEFOREEND);
     tripControlsFiltersElement.classList.remove('visually-hidden');
   });
 });

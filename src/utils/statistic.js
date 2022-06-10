@@ -16,6 +16,7 @@ const countPricesByType = (points, types) => {
     'SIGHTSEEING': 0,
     'RESTAURANT': 0,
   };
+
   for (const type of types) {
     points.map((trip) => {
       if (trip.type.toUpperCase() === type) {
@@ -23,6 +24,7 @@ const countPricesByType = (points, types) => {
       }
     });
   }
+
   return pricesByTypes;
 };
 
@@ -38,6 +40,7 @@ const countTypes = (points, types) => {
     'SIGHTSEEING': 0,
     'RESTAURANT': 0,
   };
+
   for (const type of types) {
     points.map((trip) => {
       if (trip.type.toUpperCase() === type) {
@@ -45,6 +48,7 @@ const countTypes = (points, types) => {
       }
     });
   }
+
   return countTypesNumber;
 };
 
@@ -85,6 +89,7 @@ const countTimeSpendInMs = (trips, types) => {
     'SIGHTSEEING': 0,
     'RESTAURANT': 0,
   };
+
   for (const type of types) {
     trips.map((trip) => {
       if (trip.type.toUpperCase() === type) {
